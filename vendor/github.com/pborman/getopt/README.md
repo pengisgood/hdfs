@@ -1,4 +1,4 @@
-# getopt
+# getopt ![build status](https://travis-ci.org/pborman/getopt.svg?branch=master)
 
 Package getopt provides traditional getopt processing for implementing
 commands that use traditional command lines.  The standard Go flag package
@@ -25,14 +25,14 @@ Typical usage:
 ```
 	Declare flags and have getopt return pointers to the values.
 	helpFlag := getopt.Bool('?', "display help")
-	cmdFlag := getopt.StringLong("command", 'c', "default", "the command)
+	cmdFlag := getopt.StringLong("command", 'c', "default", "the command")
 
 	Declare flags against existing variables.
-	var {
+	var (
 		fileName = "/the/default/path"
 		timeout = time.Second * 5
 		verbose bool
-	}
+	)
 	func init() {
 		getopt.Flag(&verbose, 'v', "be verbose")
 		getopt.FlagLong(&fileName, "path", 0, "the path")
@@ -165,7 +165,7 @@ flags or values.  As an example:
 	}
 ```
 
-If called with set to { "prog", "-a", "cmd", "-b", "arg" } then both and and
+If called with set to { "prog", "-a", "cmd", "-b", "arg" } then both a and
 b would be set, cmd would be set to "cmd", and opts.Args() would return {
 "arg" }.
 
