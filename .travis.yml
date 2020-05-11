@@ -1,25 +1,25 @@
 sudo: required
 language: go
-go_import_path: github.com/colinmarc/hdfs
+go_import_path: github.com/pengisgood/hdfs
 go: 1.x
 env:
-- PLATFORM=hdp2
-- PLATFORM=cdh5
-- PLATFORM=cdh6
-- PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=authentication
-- PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=integrity
-- PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=privacy
+  - PLATFORM=hdp2
+  - PLATFORM=cdh5
+  - PLATFORM=cdh6
+  - PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=authentication
+  - PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=integrity
+  - PLATFORM=cdh6 KERBEROS=true RPC_PROTECTION=privacy
 before_install:
-- export GO111MODULE=on # Travis installs into $GOPATH/src, which disables module support by default.
+  - export GO111MODULE=on # Travis installs into $GOPATH/src, which disables module support by default.
 install:
-- git clone https://github.com/sstephenson/bats $HOME/bats
-- mkdir -p $HOME/bats/build
-- "$HOME/bats/install.sh $HOME/bats/build"
-- export PATH="$PATH:$HOME/bats/build/bin"
-- ./travis-setup.sh $PLATFORM
+  - git clone https://github.com/sstephenson/bats $HOME/bats
+  - mkdir -p $HOME/bats/build
+  - "$HOME/bats/install.sh $HOME/bats/build"
+  - export PATH="$PATH:$HOME/bats/build/bin"
+  - ./travis-setup.sh $PLATFORM
 before_script:
-- export HADOOP_CONF_DIR="/etc/hadoop/conf"
-- find internal/protocol -name *.pb.go | xargs touch # so make doesn't try to regen protobuf files
+  - export HADOOP_CONF_DIR="/etc/hadoop/conf"
+  - find internal/protocol -name *.pb.go | xargs touch # so make doesn't try to regen protobuf files
 script: make test
 before_deploy: make release
 deploy:
@@ -30,11 +30,11 @@ deploy:
   file: gohdfs-*.tar.gz
   file_glob: true
   on:
-    repo: colinmarc/hdfs
+    repo: pengisgood/hdfs
     tags: true
     all_branches: true
     condition: $PLATFORM = hdp2
 cache:
   directories:
-  - $HOME/.cache/go-build
-  - $GOPATH/pkg/mod
+    - $HOME/.cache/go-build
+    - $GOPATH/pkg/mod
